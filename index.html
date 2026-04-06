@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ι.Ν. Αγίου Ραφαήλ - Info Point</title>
+    <style>
+        :root {
+            --church-red: #7b0000;
+            --gold: #d4af37;
+            --ivory: #fdfaf1;
+            --white: #ffffff;
+            --dark-text: #222;
+        }
+
+        /* Εφαρμογή της Book Antiqua σε όλο το έγγραφο */
+        body {
+            font-family: "Book Antiqua", "Palatino Linotype", "Palatino", "Georgia", serif;
+            background-color: var(--church-red);
+            margin: 0;
+            padding: 0;
+            color: var(--dark-text);
+        }
+
+        /* Κεντρική Σελίδα */
+        .main-screen {
+            background-color: var(--ivory);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 20px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header-image {
+            max-width: 180px;
+            height: auto;
+            margin-bottom: 15px;
+            display: block;
+            border-radius: 5px;
+        }
+
+        header h1 {
+            color: var(--church-red);
+            font-size: 1.5rem;
+            margin: 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tropario {
+            font-style: italic;
+            font-size: 1rem; /* Ελαφρώς μεγαλύτερο για αναγνωσιμότητα */
+            line-height: 1.5;
+            color: #444;
+            max-width: 320px;
+            margin: 0 auto;
+            padding: 10px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 8px;
+        }
+
+        /* Μενού Κουμπιών */
+        .menu-container {
+            width: 100%;
+            max-width: 380px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .menu-btn {
+            background: var(--white);
+            border: 2px solid var(--church-red);
+            color: var(--church-red);
+            padding: 18px;
+            font-size: 1.2rem; /* Βελτιωμένο μέγεθος */
+            font-weight: bold;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit; /* Παίρνει την Book Antiqua από το body */
+        }
+
+        .menu-btn:active {
+            transform: scale(0.96);
+            background-color: var(--gold);
+            color: white;
+            border-color: var(--gold);
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background: var(--ivory);
+            width: 92%;
+            max-height: 85vh;
+            border-radius: 12px;
+            position: relative;
+            padding: 25px;
+            border: 3px solid var(--gold);
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 12px;
+            font-size: 35px;
+            color: var(--church-red);
+            cursor: pointer;
+        }
+
+        .modal-content h2 {
+            color: var(--church-red);
+            margin-top: 5px;
+            border-bottom: 1px solid var(--gold);
+            padding-bottom: 10px;
+            font-size: 1.4rem;
+        }
+
+        .modal-content p {
+            line-height: 1.7;
+            font-size: 1.15rem;
+            color: #222;
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #777;
+            border-top: 1px solid #eee;
+            width: 100%;
+        }
+
+        .cross { color: var(--gold); font-size: 1.5rem; }
+    </style>
+</head>
+<body>
+
+<div class="main-screen">
+    <header>
+        <img src="mail.png" alt="Εικόνα Αγίου Ραφαήλ" class="header-image">
+        
+        <div class="cross">☩</div>
+        <h1>ΙΕΡΟΣ ΝΑΟΣ ΑΓΙΟΥ ΡΑΦΑΗΛ</h1>
+        <div style="color:var(--gold); font-weight:bold; margin-bottom:15px;">Άγιος Γεώργιος Λασιθίου</div>
+        
+        <div class="tropario">
+            Ὡς φῶς ἡμῖν ὤφθησαν Ραφαὴλ μέγα<br>
+            Ὁμοῦ καὶ Νικόλαος οἱ κεκρυμμένοι.<br>
+            Εἰρήνη ἀθλήσασα σὺν τοῖς τοκεῦσι<br>
+            Ἡμῖν ἤδη ἔγνωσται θαύμασι ξένοις.<br>
+            Καρυῶν ἀθλήσαντες Μονῇ τῇ πάλαι<br>
+            Τῆς ἄνω ἐπέβητε Μάρτυρες δόξῃς.
+        </div>
+    </header>
+
+    <div class="menu-container">
+        <button class="menu-btn" onclick="openModal('life')">Ὁ Βίος τῶν Ἁγίων</button>
+        <button class="menu-btn" onclick="openModal('martyrdom')">Τὸ Φρικτὸ Μαρτύριο</button>
+        <button class="menu-btn" onclick="openModal('miracles')">Ἡ Θαυμαστὴ Φανέρωση</button>
+        <button class="menu-btn" onclick="openModal('church')">Τὸ Ἱστορικὸ τοῦ Ναοῦ</button>
+    </div>
+
+    <footer>
+        &copy; 2026 Ιερός Ναός Αγίου Ραφαήλ Λασιθίου
+    </footer>
+</div>
+
+<div id="infoModal" class="modal-overlay" onclick="closeModalOutside(event)">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2 id="modalTitle"></h2>
+        <div id="modalBody"></div>
+    </div>
+</div>
+
+<script>
+    const data = {
+        life: {
+            title: "Ὁ Βίος τῶν Ἁγίων",
+            text: "<p>Ὁ <b>Ἅγιος Ραφαὴλ</b> (κατὰ κόσμον Γεώργιος Λασκαρίδης) γεννήθηκε τὸ 1410 στοὺς Μύλους τῆς Ἰθάκης. Ὑπῆρξε ἀξιωματικὸς τοῦ βυζαντινοῦ στρατοῦ πρὶν ἀφιερωθεῖ στὸν Θεό. Χειροτονήθηκε Ἀρχιμανδρίτης καὶ ὑπηρέτησε τὸ Πατριαρχεῖο Κωνσταντινουπόλεως μὲ μεγάλη μόρφωση καὶ πνευματικότητα.</p><p>Μαζί του συμπορεύτηκε ὁ <b>Ἅγιος Νικόλαος</b>, ὁ ὁποῖος ἐγκατέλειψε τὰ πάντα γιὰ νὰ γίνει ὑποτακτικός του καὶ διάκονος, παραμένοντας πιστὸς δίπλα του μέχρι τὸ μαρτυρικό τους τέλος στὴ Λέσβο.</p>"
+        },
+        martyrdom: {
+            title: "Τὸ Φρικτὸ Μαρτύριο",
+            text: "<p>Τὴν Τρίτη τῆς Διακαινησίμου τοῦ 1463, οἱ Τοῦρκοι εἰσέβαλαν στὴ μονὴ τῶν Καρυῶν. Ὁ Ἅγιος Ραφαὴλ ὑπέστη φρικτὰ βασανιστήρια καὶ τελικὰ μαρτύρησε διὰ σφαγῆς ἐντὸς τοῦ στόματος μὲ πριόνι.</p><p>Ὁ Ἅγιος Νικόλαος πέθανε ἀπὸ ἀνακοπὴ δεμένος σὲ δέντρο, ἐνῶ ἡ <b>Ἁγία Εἰρήνη</b>, μόλις 12 ἐτῶν, κάηκε ζωντανὴ μέσα σὲ ἕνα πιθάρι μπροστὰ στὰ μάτια τῶν γονιών της, ὁμολογώντας τὴν πίστη της στὸν Χριστό.</p>"
+        },
+        miracles: {
+            title: "Ἡ Θαυμαστὴ Φανέρωση",
+            text: "<p>Οἱ Ἅγιοι παρέμεναν ἄγνωστοι ἐπὶ 500 χρόνια, μέχρι τὸ 1959. Μετὰ τὴν εὕρεση τῶν λειψάνων τους στὴ Θερμὴ τῆς Λέσβου, οἱ ἴδιοι οἱ Ἅγιοι ἄρχισαν νὰ ἐμφανίζονται σὲ ὀράματα πιστῶν, ἀποκαλύπτοντας τὴν ταυτότητα καὶ τὸ μαρτύριό τους.</p><p>Θεωροῦνται ἰαματικοὶ καὶ 'ταχεῖς' Ἅγιοι, μὲ ἀναρίθμητα καταγεγραμμένα θαύματα σὲ ἀσθενεῖς καὶ ἀνθρώπους ποὺ ἐπικαλοῦνται τὴ βοήθειά τους.</p>"
+        },
+        church: {
+            title: "Τὸ Ἱστορικὸ τοῦ Ναοῦ",
+            text: "<p>Ὁ Ἱερὸς Ναὸς εἶναι ἀφιερωμένος στοὺς <b>Ἁγίους Ραφαήλ, Νικόλαο καὶ Εἰρήνη</b>. Ἡ ἀνέγερσή του ὑπῆρξε καρπὸς τῆς θελήσεως τῆς <b>οἰκ. Ἐμμανουὴλ Μαρκογιαννάκη</b> καὶ τῆς συζύγου του <b>Ἑλένης</b> (τὸ γένος Τσουκάκη).</p><p>Ἡ ἀπόφαση αὐτὴ γεννήθηκε μετὰ ἀπὸ ἕνα <b>προσωπικὸ θαῦμα</b> ποὺ ἔζησε ἡ Ἑλένη κατὰ τὴ διάρκεια μίας δύσκολης θεραπείας. Ὡς ἀντίδωρο εὐγνωμοσύνης πρὸς τὸν Ἅγιο, ἀποφασίστηκε ἡ δημιουργία ἑνὸς χώρου λατρείας.</p><p>Σὲ ἐπαφὴ μὲ τὴν ἐκκλησιαστικὴ ἐνορία, παραχωρήθηκε τὸ πρῶτο κελὶ στὸν προαύλιο χῶρο τοῦ <b>Ἁγίου Νεκταρίου</b> στὴ θέση <b>«Ἀγουστί»</b>. Με εὐλάβεια, τὸ κελὶ μεταποιήθηκε στὸ καλλιμάρμαρο ἐκκλησάκι ποὺ ἀντικρίζετε, μὲ τὴ συνδρομὴ καὶ ἀρκετῶν συγχωριανῶν μας.</p><p>Οἱ ἐργασίες ξεκίνησαν τὸ <b>2005</b> καὶ ὁλοκληρώθηκαν τὸ <b>2006</b>. Τὰ ἐγκαίνια τοῦ Ναοῦ τελέστηκαν τὸ καλοκαίρι τοῦ <b>2026</b>, χοροστατοῦντος τοῦ Σεβασμιωτάτου Μητροπολίτου Πέτρας καὶ Χερρονήσου <b>κ.κ. Νεκταρίου</b>.</p>"
+        }
+    };
+
+    function openModal(key) {
+        document.getElementById('modalTitle').innerText = data[key].title;
+        document.getElementById('modalBody').innerHTML = data[key].text;
+        document.getElementById('infoModal').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        document.getElementById('infoModal').style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    function closeModalOutside(event) {
+        if (event.target.id === "infoModal") {
+            closeModal();
+        }
+    }
+</script>
+
+</body>
+</html>
