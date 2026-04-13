@@ -94,7 +94,10 @@
             transition: 0.2s;
             font-family: inherit;
             text-align: center;
-            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
         }
 
         .menu-btn:active {
@@ -104,9 +107,11 @@
             border-color: var(--gold);
         }
 
+        /* Ειδικό στυλ για το κουμπί ήχου */
         .audio-btn {
             background-color: #fffcf0;
-            border-style: dashed;
+            border-style: solid;
+            color: #b30000;
         }
 
         .modal-overlay {
@@ -198,10 +203,13 @@
         <button class="menu-btn" onclick="openModal('miracles')">Ἡ Θαυμαστὴ Φανέρωση</button>
         <button class="menu-btn" onclick="openModal('church')">Τὸ Ἱστορικὸ τοῦ Ναοῦ</button>
         <button class="menu-btn" onclick="openModal('place')">Ἱστορικότητα της περιοχής</button>
-        <button class="menu-btn audio-btn" onclick="playAudio()">🎵 Ἀπολυτίκιο (Ἦχος δ')</button>
+        
+        <button id="audioBtn" class="menu-btn audio-btn" onclick="toggleAudio()">
+            <span id="btnIcon">▶</span> <span id="btnText">Ἀπολυτίκιο</span>
+        </button>
     </div>
 
-    <audio id="apolitikoAudio">
+    <audio id="apolitikioAudio" onended="resetAudioBtn()">
         <source src="apolitikio.mp3" type="audio/mpeg">
     </audio>
 
@@ -238,7 +246,7 @@
         },
         place: {
             title: "Ἡ Ἱστορικότητα τῆς Θέσεως «Ἀγουστί»",
-            text: "<p>Ἡ θέση <b>«Ἀγουστί»</b> ἀποτελεῖ τὴν ἱστορικὴ κοιτίδα τοῦ χωριοῦ μας. Σύμφωνα μὲ τὴν παράδοση, ὁ οἰκισμὸς ἐγκαταλείφθηκε σταδιακὰ μετὰ ἀπὸ μία <b>θανατηφόρα ἀσθένεια</b> ποὺ ἀποδεκάτισε τοὺς κατοίκους.</p><p>Ἡ λαϊκή μνήμη διέσωσε τὸ δρᾶμα τῆς ἐρήμωσης μὲ τὸ τραγικὸ ρητό: <br><br><i>«Στοῦ Αὐγουστή τὸ χωριό, πόρτες ἑβδομηνταδυό,<br> κύλισε ὁ καιρός, ἀπόμεινε κύρης καὶ γιός...»</i><br><br>Οἱ ἐπιζήσαντες, ἀναζητώντας ἕναν «καθαρὸ» τόπο, μετοίκησαν στὴ σημερινὴ θέση τοῦ χωριοῦ, ὑπὸ τὴν καθοδήγηση τοῦ Μεγαλομάρτυρος Γεωργίου, τοῦ ὁποίου ἡ εἰκόνα μεταφερόταν θαυματουργικά ἀπὸ τὸ «Ἀγουστί» στὸν ἀσπάλαθο ὅπου χτίστηκε ὁ νέος ναός.</p><p>Σήμερα, τὸ μοναδικὸ κτίσμα ποὺ θυμίζει τὴν παλαιὰ κοινότητα εἶναι ἡ ἱστορικὴ ἐκκλησία τοῦ <b>Ἁγίου Γεωργίου τοῦ Αὐγουστή</b> (δίκλιτος ναὸς μετὰ τοῦ <b>Ἁγίου Νεκταρίου</b>), ὁ ὁποῖος παραμένει ὁ πνευματικὸς φάρος ποὺ συνδέει τὶς ρίζες μας μὲ τὸ παρόν.</p>"
+            text: "<p>Ἡ θέση <b>«Ἀγουστί»</b> ἀποτελεῖ τὴν ἱστορικὴ κοιτίδα τοῦ χωριοῦ μας. Σύμφωνα μὲ τὴν παράδοση, ὁ οἰκισμὸς ἐγκαταλείφθηκε σταδιακὰ μετὰ ἀπὸ μία <b>θανατηφόρα ἀσθένεια</b> ποὺ ἀποδεκάτισε τοὺς κατοίκους.</p><p>Ἡ λαϊκή μνήμη διέσωσε τὸ δρᾶμα τῆς ἐρήμωσης μὲ τὸ τραγικὸ ρητό: <br><br><i>«Στοῦ Αὐγουστή τὸ χωριό, πόρτες ἑβδομηνταδυό,<br> κύλισε ὁ καιρός, ἀπόμεινε κύρης καὶ γιός...»</i><br><br>Οἱ ἐπιζήσαντες, ἀναζητώντας ἕναν «καθαρὸ» τόπο, μετοίκησαν στὴ σημερινὴ θέση τοῦ χωριοῦ, ὑπὸ τὴν καθοδήγηση τοῦ Μεγαλομάρτυρος Γεωργίου, τοῦ ὁποίου ἡ εἰκόνα μεταφερόταν θαυματουργικά ἀπὸ τὸ «Ἀγουστί» στὸν ἀσπάλαθο ὅπου χτίστηκε ὁ νέος ναός.</p><p>Σήμερα, τὸ μοναδικὸ κτίσμα ποὺ θυμίζει τὴν παλαιὰ κοινότητα εἶναι ἡ ἱστορική ἐκκλησία τοῦ <b>Ἁγίου Γεωργίου τοῦ Αὐγουστή</b> (δίκλιτος ναὸς μετὰ τοῦ <b>Ἁγίου Νεκταρίου</b>), ὁ ὁποῖος παραμένει ὁ πνευματικὸς φάρος ποὺ συνδέει τὶς ρίζες μας μὲ τὸ παρόν.</p>"
         }
     };
 
@@ -262,16 +270,30 @@
         }
     }
 
-    function playAudio() {
-        const audio = document.getElementById('apolitikoAudio');
+    // Λειτουργία Εναλλαγής Ήχου και Εικονιδίου
+    function toggleAudio() {
+        const audio = document.getElementById('apolitikioAudio');
+        const icon = document.getElementById('btnIcon');
+        const text = document.getElementById('btnText');
+
         if (audio.paused) {
-            audio.play().catch(error => {
-                alert("Σφάλμα: Βεβαιωθείτε ότι το αρχείο apolitikio.mp3 βρίσκεται στον ίδιο φάκελο με την εφαρμογή.");
+            audio.play().then(() => {
+                icon.innerText = "⏹";
+                text.innerText = "Παύση Ἀπολυτικίου";
+            }).catch(error => {
+                alert("Το αρχείο apolitikio.mp3 δεν βρέθηκε.");
             });
         } else {
             audio.pause();
-            audio.currentTime = 0;
+            audio.currentTime = 0; // Επαναφορά στην αρχή
+            resetAudioBtn();
         }
+    }
+
+    // Επαναφορά κουμπιού όταν τελειώσει ο ήχος ή πατηθεί το Stop
+    function resetAudioBtn() {
+        document.getElementById('btnIcon').innerText = "▶";
+        document.getElementById('btnText').innerText = "Ἀπολυτίκιο";
     }
 </script>
 
