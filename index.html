@@ -78,6 +78,7 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
+            margin-bottom: 20px;
         }
 
         .menu-btn {
@@ -92,6 +93,8 @@
             cursor: pointer;
             transition: 0.2s;
             font-family: inherit;
+            text-align: center;
+            text-decoration: none;
         }
 
         .menu-btn:active {
@@ -99,6 +102,12 @@
             background-color: var(--gold);
             color: white;
             border-color: var(--gold);
+        }
+
+        /* Ειδικό στυλ για το κουμπί ήχου */
+        .audio-btn {
+            background-color: #fffcf0;
+            border-style: dashed;
         }
 
         .modal-overlay {
@@ -190,7 +199,13 @@
         <button class="menu-btn" onclick="openModal('miracles')">Ἡ Θαυμαστὴ Φανέρωση</button>
         <button class="menu-btn" onclick="openModal('church')">Τὸ Ἱστορικὸ τοῦ Ναοῦ</button>
         <button class="menu-btn" onclick="openModal('place')">Ἱστορικότητα της περιοχής</button>
+        <button class="menu-btn audio-btn" onclick="playAudio()">🎵 Ἀπολυτίκιο (Ἦχος δ')</button>
     </div>
+
+    <audio id="apolitikoAudio">
+        <source src="apolitiko.mp3" type="audio/mpeg">
+        Το πρόγραμμα περιήγησής σας δεν υποστηρίζει το στοιχείο ήχου.
+    </audio>
 
     <footer>
         &copy; 2026 Ιερός Ναός Αγίου Ραφαήλ Λασιθίου - marcon
@@ -230,10 +245,12 @@
     };
 
     function openModal(key) {
-        document.getElementById('modalTitle').innerText = data[key].title;
-        document.getElementById('modalBody').innerHTML = data[key].text;
-        document.getElementById('infoModal').style.display = 'flex';
-        document.body.style.overflow = 'hidden';
+        if (data[key]) {
+            document.getElementById('modalTitle').innerText = data[key].title;
+            document.getElementById('modalBody').innerHTML = data[key].text;
+            document.getElementById('infoModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
     }
 
     function closeModal() {
@@ -244,6 +261,19 @@
     function closeModalOutside(event) {
         if (event.target.id === "infoModal") {
             closeModal();
+        }
+    }
+
+    // Λειτουργία για το Απολυτίκιο
+    function playAudio() {
+        const audio = document.getElementById('apolitikioAudio');
+        if (audio.paused) {
+            audio.play().catch(error => {
+                alert("Παρακαλώ βεβαιωθείτε ότι το αρχείο apolitikio.mp3 βρίσκεται στον ίδιο φάκελο.");
+            });
+        } else {
+            audio.pause();
+            audio.currentTime = 0;
         }
     }
 </script>
